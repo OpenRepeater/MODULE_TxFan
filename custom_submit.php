@@ -9,18 +9,16 @@
 
 $moduleOptions = $inputArray;
 
-/*
 // Build array to update GPIO Pins DB table for pin registration with OS
-$gpio_array[$moduleOptions['fan_gpio']] = [
+$gpio_array[] = [
 	'gpio_num' => $moduleOptions['fan_gpio'],
 	'direction' => 'out',
 	'active' => $moduleOptions['fan_gpio_active_state'],
-	'description' => 'TxFan GPIO',
+	'description' => 'TxFan: Fan GPIO',
 ];
 
 // Update GPIO pins table with new pins.
 $this->update_gpios('TxFan',$gpio_array);		
-*/
 
 // Pass NEW array back out as $outputArray
 $outputArray = $moduleOptions;
