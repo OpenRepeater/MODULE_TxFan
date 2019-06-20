@@ -17,6 +17,5 @@ $default_settings = [
     'ptt2_gpio' => '507',
     'fan_gpio' => '497',
     'fan_gpio_active_state' => 'low',
-	]
 ];
 ?>
