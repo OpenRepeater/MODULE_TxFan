@@ -42,6 +42,7 @@ namespace eval TxFan {
 	
 	variable CFG_MODE
 	variable timer
+	set timer 0
 	proc main {} {
 	variable CFG_MODE
 		variable CFG_PTT_PATH_1
