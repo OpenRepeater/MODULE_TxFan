@@ -22,7 +22,7 @@
 			<div class="controls">
 			  <input class="input-xlarge" id="delay" type="text" name="delay" value="<?php echo $moduleSettings['delay']; ?>">
 			</div>
-		    <span class="help-inline">Delay in minutes until fan turns on when set to "COUNT_DOWN"</span>
+		    <span class="help-inline">Delay in seconds until fan turns on when set to "COUNT_DOWN"</span>
 		  </div>
 
 		  <div class="control-group">
