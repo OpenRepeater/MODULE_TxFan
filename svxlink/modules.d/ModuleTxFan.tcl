@@ -70,7 +70,7 @@ namespace eval TxFan {
 			}
 			COUNT_DOWN {
 				if {[exec cat $CFG_PTT_PATH_1] | [exec cat $CFG_PTT_PATH_2]}  { 
-					if {$Hysteresis_count < 20} {
+					if {$Hysteresis_count < CFG_HYSTERESIS_TRIGGER} {
 						# Hysteresis not yet reached, increment the counter
 						set Hysteresis_count [expr $Hysteresis_count+1] 
 					} else {
