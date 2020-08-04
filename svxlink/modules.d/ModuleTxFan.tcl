@@ -1,11 +1,11 @@
 ###############################################################################
-#  SVXlink Site Status Module Coded by Dan Loranger (KG7PAR)
+#  SVXlink UHF Amplifier Fan Contro module Coded by Dan Loranger (KG7PAR)
 #  
-#  This module enables the user to configure sensors to monitor the health and
-#  wellbeing of a remote site.  The module runs in the background and on a 
-#  regular interval (once per second) checks the inputs and will announce over 
-#  the air, any configured messages as to alert the site manager/monitors 
-#  that an event of interest has occurred.
+#  Fan Control of GPIO pin 13
+#   
+#  Attempt at Hysteresis 
+#  
+#  
 #
 ###############################################################################
 #
@@ -43,12 +43,16 @@ namespace eval TxFan {
 	variable CFG_MODE
 	variable timer
 	set timer 0
+	# variable CFG_HYSTERESIS_TRIGGER
+	set Hysteresis_count 0
 	proc main {} {
-	variable CFG_MODE
+		variable CFG_MODE
 		variable CFG_PTT_PATH_1
 		variable CFG_PTT_PATH_2
 		variable CFG_FAN_GPIO
 		variable CFG_DELAY
+		variable Hysteresis_count
+		variable CFG_HYSTERESIS_TRIGGER
 		variable timer
 		switch $CFG_MODE {
 			FOLLOW_PTT {
@@ -66,13 +70,23 @@ namespace eval TxFan {
 			}
 			COUNT_DOWN {
 				if {[exec cat $CFG_PTT_PATH_1] | [exec cat $CFG_PTT_PATH_2]}  { 
-					# turn on the timer and reset the count down register
-					#printInfo "Fan enabled & Timer Reset"
-					set fp [open $CFG_FAN_GPIO w]
-					puts $fp "1"
-					close $fp
-					set timer $CFG_DELAY
+					if {$Hysteresis_count < 20} {
+						# Hysteresis not yet reached, increment the counter
+						set Hysteresis_count [expr $Hysteresis_count+1] 
+					} else {
+						# Hysteresis threshold reached ...
+						# turn on the timer and reset the count down register
+						#printInfo "Fan enabled & Timer Reset"
+						set fp [open $CFG_FAN_GPIO w]
+						puts $fp "1"
+						close $fp
+						set timer $CFG_DELAY
+						}
 				} else {
+					# Clear the hysteresis timer
+					set Hysteresis_count 0
+					
+					# work the fan
 					if {$timer == 0} {
 						#printInfo "Fan disabled"
 						set fp [open $CFG_FAN_GPIO w]
