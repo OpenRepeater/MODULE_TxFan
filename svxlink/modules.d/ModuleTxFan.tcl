@@ -1,11 +1,11 @@
 ###############################################################################
-#  SVXlink UHF Amplifier Fan Contro module Coded by Dan Loranger (KG7PAR)
+#  SVXlink Site Status Module Coded by Dan Loranger (KG7PAR)
 #  
-#  Fan Control of GPIO pin 13
-#   
-#  Attempt at Hysteresis 
-#  
-#  
+#  This module enables the user to configure sensors to monitor the health and
+#  wellbeing of a remote site.  The module runs in the background and on a 
+#  regular interval (once per second) checks the inputs and will announce over 
+#  the air, any configured messages as to alert the site manager/monitors 
+#  that an event of interest has occurred.
 #
 ###############################################################################
 #
