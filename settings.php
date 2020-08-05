@@ -6,38 +6,64 @@
  */
 ?>
 
+<?php
+	$ports = $this->Database->get_ports();
+	$pttOptionHTML = '';
+	foreach($ports as $curPort) {
+		$pttOptionHTML .= '<option value="' . $curPort['txGPIO'] . '">PTT: ' . $curPort['portLabel'] . ' (' . $curPort['txGPIO'] . ')</option>';
+		
+	}
+	
+	// Hidden DIV to pass module settings array to JavaScript as json array
+	echo '<div id="moduleSettingsArray" style="display:none;">' . json_encode($moduleSettings) . '</div>';
+
+?>
+
 <!-- BEGIN FORM CONTENTS -->
+
 	<fieldset>
 		<legend>Module Settings</legend>
 		  <div class="control-group">
 			<label class="control-label" for="mode">Fan Mode</label>
 			<div class="controls">
-			  <input class="input-xlarge" id="mode" type="text" name="mode" value="<?php echo $moduleSettings['mode']; ?>">
+			  <select id="mode" name="mode">
+				  <option value="FOLLOW_PTT">Follow PTT</option>
+				  <option value="COUNT_DOWN">Delay Timer</option>
+			  </select>
+
 			</div>
-		    <span class="help-inline">Select the operating mode "FOLLOW_PTT" or "COUNT_DOWN"</span>
+		    <span class="help-inline">Select the the mode you want to use to control the fan.</span>
 		  </div>
 	
-		  <div class="control-group">
-			<label class="control-label" for="delay">Delay</label>
+		  <div class="control-group countDownOptions">
+			<label class="control-label" for="hysteresis">Pre-Delay</label>
 			<div class="controls">
-			  <input class="input-xlarge" id="delay" type="text" name="delay" value="<?php echo $moduleSettings['delay']; ?>">
+				  <input class="input-xlarge" id="hysteresis" type="number" name="hysteresis" value="<?php echo $moduleSettings['hysteresis']; ?>">
 			</div>
-		    <span class="help-inline">Delay in seconds until fan turns on when set to "COUNT_DOWN"</span>
+		    <span class="help-inline">This is a hysteresis delay in seconds until the fan turns on after PTT becomes active. This is useful to prevent the fans from coming on from brief keyups and IDs.</span>
+		  </div>
+
+		  <div class="control-group countDownOptions">
+			<label class="control-label" for="delay">Post-Delay</label>
+			<div class="controls">
+			  <input class="input-xlarge" id="delay" type="number" name="delay" value="<?php echo $moduleSettings['delay']; ?>">
+			</div>
+		    <span class="help-inline">Delay in seconds until fan turns off after PTT drops.</span>
 		  </div>
 
 		  <div class="control-group">
 			<label class="control-label" for="ptt1_gpio">PTT GPIO Pin(s)</label>
 			<div class="controls">
-			  <input class="input-xlarge" id="ptt1_gpio" type="text" name="ptt1_gpio" value="<?php echo $moduleSettings['ptt1_gpio']; ?>">
-			  <input class="input-xlarge" id="ptt2_gpio" type="text" name="ptt2_gpio" value="<?php echo $moduleSettings['ptt2_gpio']; ?>">
+			  <select id="ptt1_gpio" name="ptt1_gpio"><?=$pttOptionHTML?></select>
+			  <select id="ptt2_gpio" name="ptt2_gpio"><?=$pttOptionHTML?></select>
 			</div>
-		    <span class="help-inline">GPIOs where the PTT(s) can be monitored. 2 paths are required, if there is only 1 PTT, assign them the same GPIO.</span>
+		    <span class="help-inline">The GPIO based PTT(s) that are monitored to trigger the fan circuit.</span>
 		  </div>
 
 		  <div class="control-group">
 			<label class="control-label" for="fan_gpio">Fan GPIO Pin</label>
 			<div class="controls">
-			  <input class="input-xlarge" id="fan_gpio" type="text" name="fan_gpio" value="<?php echo $moduleSettings['fan_gpio']; ?>">
+			  <input class="input-xlarge" id="fan_gpio" type="number" name="fan_gpio" value="<?php echo $moduleSettings['fan_gpio']; ?>">
 			</div>
 		    <span class="help-inline">GPIO pin used to control fan circuit.</span>
 		  </div>

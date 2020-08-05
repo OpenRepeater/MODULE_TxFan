@@ -18,7 +18,7 @@ $module_config_array['Module'.$cur_mod['svxlinkName']] = [
 # MODE: Select the operating mode "FOLLOW_PTT" or "COUNT_DOWN"
 $module_config_array['Module'.$cur_mod['svxlinkName']] += [
 	'MODE' => $options['mode'],
-	'HYSTERESIS_TRIGGER' => '21',
+	'HYSTERESIS_TRIGGER' => $options['hysteresis'],
 	'DELAY' => $options['delay'],
 ];
 
