@@ -12,10 +12,11 @@
 
 $default_settings = [
     'mode' => 'FOLLOW_PTT',
-    'delay' => '1',
-    'ptt1_gpio' => '506',
-    'ptt2_gpio' => '507',
-    'fan_gpio' => '497',
+    'hysteresis' => '20',
+    'delay' => '30',
+    'ptt1_gpio' => '',
+    'ptt2_gpio' => '',
+    'fan_gpio' => '24',
     'fan_gpio_active_state' => 'low',
 ];
 ?>
